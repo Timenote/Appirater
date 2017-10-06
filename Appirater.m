@@ -632,7 +632,16 @@ static BOOL _alwaysUseMainBundle = NO;
   if (NSStringFromClass([SKStoreReviewController class]) != nil) {
     // Also note, that SKStoreReviewController takes care of impression limitation by itself so it's ok to not save the impression manually 
     // This also works in the simulator
+	  
+	  [userDefaults setDouble:[[NSDate date] timeIntervalSince1970] forKey:kAppiraterReminderRequestDate];
+			[userDefaults synchronize];
+			if(delegate && [delegate respondsToSelector:@selector(appiraterDidOptToRemindLater:)]){
+				[delegate appiraterDidOptToRemindLater:self];
+			}
+	  
     [SKStoreReviewController requestReview];
+	  
+	  
     return;
   }
 
